@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
             android:background="#ea4c88"
-            android:text="@string/btn_register"
+            android:text="sex"
             android:textColor="@color/white" />
 
     </LinearLayout>
