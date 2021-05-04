@@ -8,4 +8,7 @@
     <string name="btn_login">로그인</string>
     <string name="btn_register">회원가입</string>
     <string name="btn_logout">로그아웃</string>
+    <string name="naver_client_id">3YRdpTlZI3Sz1lzmY90g</string>
+    <string name="naver_client_secret">DEkcT1A7z2</string>
+    <string name="naver_client_name">잇모닝(EatMorning)</string>
 </resources>
