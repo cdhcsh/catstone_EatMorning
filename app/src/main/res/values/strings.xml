@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">catstone_EatMorning</string>
-    <string name="hint_id">ID를 입력하세요</string>
+    <string name="hint_id">사용자 ID를 입력하세요</string>
     <string name="hint_password">패스워드를 입력하세요</string>
     <string name="hint_name">성명을 입력하세요</string>
     <string name="hint_mobileNO">휴대폰번호를 입력하세요</string>
@@ -11,4 +11,5 @@
     <string name="naver_client_id">3YRdpTlZI3Sz1lzmY90g</string>
     <string name="naver_client_secret">DEkcT1A7z2</string>
     <string name="naver_client_name">잇모닝(EatMorning)</string>
+    <string name="kakao_app_key">ebc017f2279f3ad64d4ef20d550f8c1a</string>
 </resources>

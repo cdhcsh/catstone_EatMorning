@@ -3,21 +3,24 @@ package com.capstone.catstone_eatmorning;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class User {
+public class Member {
+    public String userID;
     public String username;
-    public String email;
+    public String password;
 
-    public User(){
-
-    }
-    public User(String username, String email){
+    public Member(String userID, String username, String password) {
+        this.userID = userID;
         this.username = username;
-        this.email = email;
+        this.password = password;
     }
-    public static void writeNewUser(String userID, String name,String email){
+
+    public Member(){
+
+    }
+    public static void writeNewUser(String userID, String username,String password){
         DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        User user = new User(name,email);
+        Member user = new Member(userID,username,password);
         mDatabase.child("users").child(userID).setValue(user);
     }
 }

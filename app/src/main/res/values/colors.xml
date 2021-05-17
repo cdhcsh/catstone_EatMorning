@@ -5,13 +5,13 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
+    <color name="black">#FF000000</color>1
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="bg_login">#26ae90</color>
     <color name="bg_register">#26ae90</color>
-    <color name="bg_main">#428bca</color>
+    <color name="bg_main">#ffffff</color>
     <color name="white">#ffffff</color>
     <color name="input_login">#222222</color>
     <color name="input_login_hint">#999999</color>
@@ -19,7 +19,7 @@
     <color name="input_register_bg">#ffffff</color>
     <color name="input_register_hint">#999999</color>
     <color name="btn_login">#26ae90</color>
-    <color name="btn_login_bg">#eceef1</color>
+    <color name="btn_login_bg">#FFE400</color>
     <color name="lbl_name">#333333</color>
-    <color name="btn_logut_bg">#ff6861</color>
+    <color name="btn_light">#FF7012</color>
 </resources>
