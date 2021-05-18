@@ -12,4 +12,7 @@
     <string name="naver_client_secret">DEkcT1A7z2</string>
     <string name="naver_client_name">잇모닝(EatMorning)</string>
     <string name="kakao_app_key">ebc017f2279f3ad64d4ef20d550f8c1a</string>
+    <string name="facebook_app_id">496500598073974</string>
+    <string name="fb_login_protocol_scheme">fb496500598073974</string>
+
 </resources>

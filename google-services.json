@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "189482351458",
+    "firebase_url": "https://capstone-eatmorning-default-rtdb.firebaseio.com",
     "project_id": "capstone-eatmorning",
     "storage_bucket": "capstone-eatmorning.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "189482351458-uvq5ekrkjqo9ekp2ck0nfsmmfjguuee3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.capstone.catstone_eatmorning",
+            "certificate_hash": "0211a69aa3f072254f9f638e5671b6dc80258ed6"
+          }
+        },
         {
           "client_id": "189482351458-jc2qcas8l39573de6q0l50muv83bbpv6.apps.googleusercontent.com",
           "client_type": 3

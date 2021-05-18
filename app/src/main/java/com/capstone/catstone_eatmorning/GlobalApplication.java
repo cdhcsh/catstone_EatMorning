@@ -4,6 +4,8 @@ import android.app.Application;
 
 import androidx.annotation.Nullable;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.kakao.auth.ApprovalType;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.IApplicationConfig;
@@ -18,7 +20,9 @@ public class GlobalApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-
+        // facebook Sdk 초기화
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
         // Kakao Sdk 초기화
         KakaoSDK.init(new KakaoSDKAdapter());
     }

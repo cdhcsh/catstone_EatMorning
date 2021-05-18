@@ -29,8 +29,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends AppCompatActivity {
-    OAuthLogin mOAuthLoginModule;
-    Context mContext;
     private EditText input_ID;
     private EditText input_password;
     private EditText input_name;
@@ -38,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
     private String connected_social_type = null;
     private String connected_social_ID = null;
-
-    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -11,9 +11,32 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.LoginStatusCallback;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
@@ -29,6 +52,10 @@ import com.kakao.util.exception.KakaoException;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 
+import org.json.JSONObject;
+
+import java.util.Arrays;
+
 
 public class Activity_LoginPage extends AppCompatActivity {
     private ImageButton btn_naver_login;
@@ -40,11 +67,19 @@ public class Activity_LoginPage extends AppCompatActivity {
     private Button btn_login;
     private Button btn_register;
     private SessionCallback_Kakao sessionCallback = new SessionCallback_Kakao();
-    Session kakao_Session;
+    private Session kakao_Session;
     private static final String TAG = "LoginActivity";
     public static Activity_LoginPage activity_login;
-    OAuthLogin naver_M0AuthLoginModule;
-    Context context;
+    private OAuthLogin naver_M0AuthLoginModule;
+    private Context context;
+    private CallbackManager facebook_CallbackManager;
+    private LoginCallback_Facebook facebook_Callback;
+    private GoogleSignInOptions googleSignInOptions;
+    private FirebaseAuth google_mAuth;
+    private GoogleSignInClient mGoogleSignInClient;
+
+    private int RC_SIGN_IN = 123;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +94,86 @@ public class Activity_LoginPage extends AppCompatActivity {
         input_password = (EditText) findViewById(R.id.input_password);
         btn_login = (Button) findViewById(R.id.btn_login);
         btn_register = (Button) findViewById(R.id.btn_register);
+        initBtn_Login();
+        initBtn_Naver_Login();
+        initBtn_Kakao_Login();
+        initBtn_Facebook_Login();
+        initBtn_Google_Login();
+        initBtn_Logout();
 
+    }
+    private void initBtn_Login(){
+        btn_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+            String userID = input_userID.getText().toString();
+            String password = SHA256.encode(input_password.getText().toString());
+            startActivity_Login_normal(userID,password);
+            }
+        });
+    }
+    private void initBtn_Logout(){
+        btn_register.setOnClickListener(v -> {
+            //페이스북 로그아웃
+            LoginManager.getInstance().logOut();
+            //구글 로그아웃
+            signOut();
+            //네이버 로그아웃
+            naver_M0AuthLoginModule = OAuthLogin.getInstance();
+            naver_M0AuthLoginModule.logout(context);
+            //카카오 로그아웃
+            UserManagement.getInstance()
+                    .requestLogout(new LogoutResponseCallback() {
+                        @Override
+                        public void onSessionClosed(ErrorResult errorResult) {
+                            super.onSessionClosed(errorResult);
+                            Log.d(TAG, "onSessionClosed: "+errorResult.getErrorMessage());
+
+                        }
+                        @Override
+                        public void onCompleteLogout() {
+                            if (sessionCallback != null) {
+                                Session.getCurrentSession().removeCallback(sessionCallback);
+                            }
+                            Log.d(TAG, "onCompleteLogout:logout ");
+                        }
+                    });
+        });
+    }
+    private void initBtn_Google_Login(){
+        //구글 로그인
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
+        google_mAuth = FirebaseAuth.getInstance();
+        mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
+        btn_google_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signIn();
+            }
+        });
+    }
+    private void initBtn_Kakao_Login(){
+// 카카오 로그인
+        kakao_Session = Session.getCurrentSession();
+        kakao_Session.addCallback(sessionCallback);
+        btn_kakao_login.setOnClickListener(v -> {
+            long id = 0;
+            if (Session.getCurrentSession().checkAndImplicitOpen()) {
+                Log.d(TAG, "onClick: 로그인 세션살아있음");
+                // 카카오 로그인 시도 (창이 안뜬다.)
+//                sessionCallback.requestMe();
+            }
+            else{
+                Log.d(TAG, "onClick: 로그인 세션끝남");
+                // 카카오 로그인 시도 (창이 뜬다.)
+                kakao_Session.open(AuthType.KAKAO_LOGIN_ALL, Activity_LoginPage.this);
+                sessionCallback.requestMe();
+            }
+        });
+    }
+    private void initBtn_Naver_Login(){
+        //네이버 로그인
         btn_naver_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,10 +197,7 @@ public class Activity_LoginPage extends AppCompatActivity {
                             Log.i("LoginData","refreshToken : "+ refreshToken);
                             Log.i("LoginData","expiresAt : "+ expiresAt);
                             Log.i("LoginData","tokenType : "+ tokenType);
-                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                            intent.putExtra(Member.CONNECTED_SOCIAL_TYPE,Member.NAVER);
-                            intent.putExtra(Member.CONNECTED_SOCIAL_ID,SHA256.encode(String.valueOf(expiresAt)));
-                            startActivity(intent);
+                            startActivity_Login_social(Member.NAVER,String.valueOf(expiresAt));
 
                         } else {
                             String errorCode = naver_M0AuthLoginModule
@@ -99,47 +210,35 @@ public class Activity_LoginPage extends AppCompatActivity {
                 naver_M0AuthLoginModule.startOauthLoginActivity(Activity_LoginPage.this, mOAuthLoginHandler);
             }
         });
-// 카카오 로그인
-        kakao_Session = Session.getCurrentSession();
-        kakao_Session.addCallback(sessionCallback);
-        btn_kakao_login.setOnClickListener(v -> {
-            long id = 0;
-            if (Session.getCurrentSession().checkAndImplicitOpen()) {
-                Log.d(TAG, "onClick: 로그인 세션살아있음");
-                // 카카오 로그인 시도 (창이 안뜬다.)
-                //sessionCallback.requestMe();
-            }
-            else{
-                Log.d(TAG, "onClick: 로그인 세션끝남");
-                // 카카오 로그인 시도 (창이 뜬다.)
-                kakao_Session.open(AuthType.KAKAO_LOGIN_ALL, Activity_LoginPage.this);
-                sessionCallback.requestMe();
-            }
-        });
-        btn_register.setOnClickListener(v -> {
-            //네이버 로그아웃
-            naver_M0AuthLoginModule.logout(context);
-            //카카오 로그아웃
-            UserManagement.getInstance()
-                    .requestLogout(new LogoutResponseCallback() {
-                        @Override
-                        public void onSessionClosed(ErrorResult errorResult) {
-                            super.onSessionClosed(errorResult);
-                            Log.d(TAG, "onSessionClosed: "+errorResult.getErrorMessage());
+    }
+    private void initBtn_Facebook_Login(){
+        //페이스북 로그인
+        facebook_CallbackManager = CallbackManager.Factory.create();
+        facebook_Callback = new LoginCallback_Facebook();
+        btn_facebook_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginManager loginManager = LoginManager.getInstance();
+                loginManager.logInWithReadPermissions(Activity_LoginPage.this, Arrays.asList("public_profile","email"));
+                loginManager.registerCallback(facebook_CallbackManager, facebook_Callback);
 
-                        }
-                        @Override
-                        public void onCompleteLogout() {
-                            if (sessionCallback != null) {
-                                Session.getCurrentSession().removeCallback(sessionCallback);
-                            }
-                            Log.d(TAG, "onCompleteLogout:logout ");
-                        }
-                    });
+
+            }
         });
     }
-
-
+    private void startActivity_Login_normal(String userID,String password){
+        Intent intent = new Intent(getApplicationContext(),Activity_Login.class);
+        intent.putExtra(Member.CONNECTED_SOCIAL_TYPE,Member.NONE);
+        intent.putExtra(Member.USERID,userID);
+        intent.putExtra(Member.PASSWORD,SHA256.encode(password));
+        startActivity(intent);
+    }
+    private void startActivity_Login_social(String connected_social_type,String connected_social_ID){
+        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+        intent.putExtra(Member.CONNECTED_SOCIAL_TYPE,connected_social_type);
+        intent.putExtra(Member.CONNECTED_SOCIAL_ID,SHA256.encode(connected_social_ID));
+        startActivity(intent);
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -150,13 +249,90 @@ public class Activity_LoginPage extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //페이스북
+        if(facebook_CallbackManager.onActivityResult(requestCode,resultCode,data)){
+        }
         // 카카오톡|스토리 간편로그인 실행 결과를 받아서 SDK로 전달
         if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
             return;
         }
-
-        super.onActivityResult(requestCode, resultCode, data);
+        // 구글
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.w(TAG, "Google sign in failed", e);
+                Toast.makeText(getApplicationContext(), "Google sign in Failed", Toast.LENGTH_LONG).show();
+            }
+        }
     }
+// 구글 로그인 모듈
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" +acct.getId());
+        // [START_EXCLUDE silent]
+        //showProgressDialog();
+        // [END_EXCLUDE]
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        google_mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = google_mAuth.getCurrentUser();
+                            //updateUI(user);
+                            //성공시 실행
+                            startActivity_Login_social(Member.GOOGLE,user.getUid());
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            // Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Authentication Failed", Toast.LENGTH_LONG).show();
+
+                            // updateUI(null);
+                        }
+
+                        // [START_EXCLUDE]
+                        // hideProgressDialog();
+                        // [END_EXCLUDE]
+                    }
+                });
+    }
+    private void signIn(){
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent,RC_SIGN_IN);
+    }
+    private void signOut(){
+        google_mAuth.signOut();
+        mGoogleSignInClient.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+            }
+        });
+    }
+    private void revokeAccess() {
+        // Firebase sign out
+        google_mAuth.signOut();
+
+        // Google revoke access
+        mGoogleSignInClient.revokeAccess().addOnCompleteListener(this,
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(getApplicationContext(), "Complete", Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+    //카카오 세션롤백
     public class SessionCallback_Kakao implements ISessionCallback {
         // 로그인에 성공한 상태
         @Override
@@ -188,49 +364,48 @@ public class Activity_LoginPage extends AppCompatActivity {
                         public void onSuccess(MeV2Response result) {
                             String id = String.valueOf(result.getId());
                             Log.i("KAKAO_API", "사용자 아이디는 : " + result.getId());
-                            UserAccount kakaoAccount = result.getKakaoAccount();
-                            if (kakaoAccount != null) {
-
-                                // 이메일
-                                String email = kakaoAccount.getEmail();
-                                Profile profile = kakaoAccount.getProfile();
-                                if (profile ==null){
-                                    Log.d("KAKAO_API", "onSuccess:profile null ");
-                                }else{
-                                    Log.d("KAKAO_API", "onSuccess:getProfileImageUrl "+profile.getProfileImageUrl());
-                                    Log.d("KAKAO_API", "onSuccess:getNickname "+profile.getNickname());
-                                }
-                                if (email != null) {
-
-                                    Log.d("KAKAO_API", "onSuccess:email "+email);
-                                }
-
-                                // 프로필
-                                Profile _profile = kakaoAccount.getProfile();
-
-                                if (_profile != null) {
-
-                                    Log.d("KAKAO_API", "nickname: " + _profile.getNickname());
-                                    Log.d("KAKAO_API", "profile image: " + _profile.getProfileImageUrl());
-                                    Log.d("KAKAO_API", "thumbnail image: " + _profile.getThumbnailImageUrl());
-
-                                } else if (kakaoAccount.profileNeedsAgreement() == OptionalBoolean.TRUE) {
-                                    // 동의 요청 후 프로필 정보 획득 가능
-
-                                } else {
-                                    // 프로필 획득 불가
-                                }
-                            }else{
-                                Log.i("KAKAO_API", "onSuccess: kakaoAccount null");
-                            }
-                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                            intent.putExtra(Member.CONNECTED_SOCIAL_TYPE,Member.KAKAO);
-                            intent.putExtra(Member.CONNECTED_SOCIAL_ID,SHA256.encode(id));
-                            startActivity(intent);
+                            startActivity_Login_social(Member.KAKAO,id);
                         }
                     });
 
         }
+    }
+    //페이스북 로그인콜백
+    class LoginCallback_Facebook implements FacebookCallback<LoginResult> {
 
+        // 로그인 성공 시 호출 됩니다. Access Token 발급 성공.
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+            String id = loginResult.getAccessToken().getUserId();
+            startActivity_Login_social(Member.FACEBOOK,id);
+        }
+
+        // 로그인 창을 닫을 경우, 호출됩니다.
+        @Override
+        public void onCancel() {
+            Log.e("Callback :: ", "onCancel");
+        }
+
+        // 로그인 실패 시에 호출됩니다.
+        @Override
+        public void onError(FacebookException error) {
+            Log.e("Callback :: ", "onError : " + error.getMessage());
+        }
+
+        // 사용자 정보 요청
+        public void requestMe(AccessToken token) {
+            GraphRequest graphRequest = GraphRequest.newMeRequest(token,
+                    new GraphRequest.GraphJSONObjectCallback() {
+                        @Override
+                        public void onCompleted(JSONObject object, GraphResponse response) {
+                            Log.e("결과는 뭔가요??",object.toString());
+                        }
+                    });
+
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "id,name,email,gender,birthday");
+            graphRequest.setParameters(parameters);
+            graphRequest.executeAsync();
+        }
     }
 }
