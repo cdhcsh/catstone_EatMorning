@@ -5,6 +5,7 @@
     android:background="@color/bg_register"
     android:gravity="center"
     android:orientation="vertical"
+    android:theme="@style/Theme.Catstone_EatMorning"
     android:padding="10dp" >
 
     <LinearLayout

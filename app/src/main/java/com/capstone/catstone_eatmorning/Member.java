@@ -13,6 +13,11 @@ public class Member {
     public static final String CONNECTED_SOCIAL_ID = "connected_social_ID";
     public static final String USERID = "userID";
     public static final String PASSWORD = "password";
+    public static final String SEX = "sex";
+    public static final String BIRTH = "birth";
+    public static final String POINT = "point";
+    public static final int SEX_MAN = 1;
+    public static final int SEX_WOMAN = 2;
 
     public String userID;
     public String username;
@@ -21,6 +26,7 @@ public class Member {
     public String connected_social_ID = null;
     public int point = 0;
     public String birth;
+    public int sex;
 
     public Member(String userID, String username, String password,String birth) {
         this.userID = userID;

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.AccessToken;
@@ -58,6 +60,7 @@ import java.util.Arrays;
 
 
 public class Activity_LoginPage extends AppCompatActivity {
+    private static final String TAG = "LoginActivity";
     private ImageButton btn_naver_login;
     private ImageButton btn_kakao_login;
     private ImageButton btn_facebook_login;
@@ -68,7 +71,6 @@ public class Activity_LoginPage extends AppCompatActivity {
     private Button btn_register;
     private SessionCallback_Kakao sessionCallback = new SessionCallback_Kakao();
     private Session kakao_Session;
-    private static final String TAG = "LoginActivity";
     public static Activity_LoginPage activity_login;
     private OAuthLogin naver_M0AuthLoginModule;
     private Context context;
@@ -85,7 +87,7 @@ public class Activity_LoginPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loginpage);
         Activity_LoginPage.activity_login = this;
-        context = getApplicationContext();
+        context = this;
         btn_naver_login = (ImageButton) findViewById(R.id.btn_naver_login);
         btn_kakao_login = (ImageButton) findViewById(R.id.btn_kakao_login);
         btn_facebook_login = (ImageButton) findViewById(R.id.btn_facebook_login);
@@ -101,14 +103,22 @@ public class Activity_LoginPage extends AppCompatActivity {
         initBtn_Google_Login();
         initBtn_Logout();
 
+
     }
     private void initBtn_Login(){
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-            String userID = input_userID.getText().toString();
-            String password = SHA256.encode(input_password.getText().toString());
-            startActivity_Login_normal(userID,password);
+                String userID = input_userID.getText().toString();
+                String password = input_password.getText().toString();
+//                if(userID.length() < 1 || password.length() < 1){
+//                    Toast toast = Toast.makeText(Activity_LoginPage.this,"입력하지 않은 내용이 있습니다",Toast.LENGTH_SHORT);
+//                    Log.d("Toast",toast.toString());
+//                    toast.show();
+//                }
+//                else {
+                    startActivity_Login_normal(userID, SHA256.encode(password));
+//                }
             }
         });
     }

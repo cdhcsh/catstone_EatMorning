@@ -60,10 +60,6 @@ public class MainActivity extends AppCompatActivity {
     }
     protected  void onStart(){
         super.onStart();
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v){
-                Member.writeNewUser(input_ID.getText().toString(),input_name.getText().toString(),SHA256.encode(input_password.getText().toString()));
-            }
-        });
+//
     }
 }

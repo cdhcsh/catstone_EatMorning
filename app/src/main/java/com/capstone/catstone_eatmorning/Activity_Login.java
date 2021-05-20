@@ -37,6 +37,12 @@ public class Activity_Login extends AppCompatActivity {
             //일반 로그인
             String userID = getIntent().getStringExtra(Member.USERID);
             String password = getIntent().getStringExtra(Member.PASSWORD);
+            if(userID.length() < 1 || password.length() < 1){
+                Toast toast = Toast.makeText(Activity_Login.this,"입력하지 않은 내용이 있습니다",Toast.LENGTH_SHORT);
+                Log.d("Toast",toast.toString());
+                toast.show();
+                return;
+            }
             userDatabase = rootDatabase.child("users").child(userID);
             userDatabase.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
