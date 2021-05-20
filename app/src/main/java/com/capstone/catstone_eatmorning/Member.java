@@ -19,17 +19,21 @@ public class Member {
     public String password;
     public String connected_social_type = null;
     public String connected_social_ID = null;
+    public int point = 0;
+    public String birth;
 
-    public Member(String userID, String username, String password) {
+    public Member(String userID, String username, String password,String birth) {
         this.userID = userID;
         this.username = username;
         this.password = password;
+        this.birth = birth;
     }
 
-    public Member(String userID, String username, String password, String connected_social_type, String connected_social_ID) {
+    public Member(String userID, String username, String password,String birth, String connected_social_type, String connected_social_ID) {
         this.userID = userID;
         this.username = username;
         this.password = password;
+        this.birth = birth;
         this.connected_social_type = connected_social_type;
         this.connected_social_ID = connected_social_ID;
     }
@@ -37,16 +41,16 @@ public class Member {
     public Member(){
 
     }
-    public static void writeNewUser(String userID, String username,String password){
+    public static void writeNewUser(String userID, String username,String password,String birth){
         DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        Member user = new Member(userID,username,password,"","");
+        Member user = new Member(userID,username,password,birth,"","");
         mDatabase.child("members").child(userID).setValue(user);
     }
-    public static void writeNewUser(String userID, String username,String password,String connected_social_type,String connected_social_ID){
+    public static void writeNewUser(String userID, String username,String password,String birth,String connected_social_type,String connected_social_ID){
         DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        Member user = new Member(userID,username,password,connected_social_type,connected_social_ID);
+        Member user = new Member(userID,username,password,birth,connected_social_type,connected_social_ID);
         mDatabase.child("members").child(userID).setValue(user);
     }
 }
