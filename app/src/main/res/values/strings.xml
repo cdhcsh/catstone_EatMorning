@@ -7,6 +7,8 @@
     <string name="hint_name">사용자 이름을 입력하세요 *</string>
     <string name="hint_mobileNO">휴대폰번호를 입력하세요</string>
     <string name="hint_email">이메일을 입력하세요</string>
+    <string name="hint_address">주소를 입력하세요 *</string>
+    <string name="hint_subaddress">상세 주소를 입력하세요</string>
     <string name="btn_login">로그인</string>
     <string name="btn_register">회원가입</string>
     <string name="btn_findID">아이디찾기</string>

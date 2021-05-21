@@ -14,7 +14,7 @@
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="100dp"
         android:layout_column="0"
         android:layout_row="0">
         <ImageView
@@ -41,7 +41,7 @@
             android:layout_marginBottom="10dp"
             android:background="@color/input_register_bg"
             android:hint="@string/hint_password"
-            android:inputType="textEmailAddress"
+            android:inputType="textPassword"
             android:padding="10dp"
             android:textColor="@color/input_register"
             android:textColorHint="@color/input_register_hint" />
@@ -152,6 +152,7 @@
             android:layout_gravity="end"
             android:columnCount="4"
             android:padding="3pt"
+            android:layout_marginBottom="40dp"
             android:rowCount="2">
 
             <TextView
