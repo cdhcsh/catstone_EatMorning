@@ -101,7 +101,7 @@ public class Activity_LoginPage extends AppCompatActivity {
         initBtn_Kakao_Login();
         initBtn_Facebook_Login();
         initBtn_Google_Login();
-        initBtn_Logout();
+        initBtn_Register();
 
 
     }
@@ -111,15 +111,21 @@ public class Activity_LoginPage extends AppCompatActivity {
             public void onClick(View v){
                 String userID = input_userID.getText().toString();
                 String password = input_password.getText().toString();
-//                if(userID.length() < 1 || password.length() < 1){
-//                    Toast toast = Toast.makeText(Activity_LoginPage.this,"입력하지 않은 내용이 있습니다",Toast.LENGTH_SHORT);
-//                    Log.d("Toast",toast.toString());
-//                    toast.show();
-//                }
-//                else {
+                if(userID.length() < 1 || password.length() < 1){
+                    Toast toast = Toast.makeText(Activity_LoginPage.this,"입력하지 않은 내용이 있습니다",Toast.LENGTH_SHORT);
+                    Log.d("Toast",toast.toString());
+                    toast.show();
+                }
+                else {
                     startActivity_Login_normal(userID, SHA256.encode(password));
-//                }
+                }
             }
+        });
+    }
+    private void initBtn_Register(){
+        btn_register.setOnClickListener(v -> {
+            Intent intent = new Intent(Activity_LoginPage.this,Activity_register.class);
+            startActivity(intent);
         });
     }
     private void initBtn_Logout(){

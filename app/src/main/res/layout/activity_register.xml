@@ -6,7 +6,7 @@
     android:gravity="top"
     android:orientation="vertical"
     android:theme="@style/Theme.Catstone_EatMorning"
-    android:padding="10dp" >
+    android:padding="25dp" >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -29,7 +29,8 @@
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
             android:columnCount="2"
             android:rowCount="8">
 
@@ -42,8 +43,8 @@
                 android:layout_column="0"
                 android:layout_margin="3dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/input_register_bg"
                 android:hint="@string/hint_id"
+                android:backgroundTint="@color/black"
                 android:inputType="textCapWords"
                 android:padding="10dp"
                 android:textColor="@color/input_register"
@@ -52,7 +53,7 @@
             <Button
                 android:id="@+id/btn_IDcheck"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_columnWeight="0.3"
                 android:layout_row="0"
                 android:layout_column="1"
@@ -72,7 +73,7 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="3dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/input_register_bg"
+                android:backgroundTint="@color/black"
                 android:hint="@string/hint_name"
                 android:inputType="textEmailAddress"
                 android:padding="10dp"
@@ -89,7 +90,7 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="3dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/input_register_bg"
+                android:backgroundTint="@color/black"
                 android:hint="@string/hint_password"
                 android:inputType="textPassword"
                 android:padding="10dp"
@@ -106,7 +107,7 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="3dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/input_register_bg"
+                android:backgroundTint="@color/black"
                 android:hint="@string/hint_passwordcheck"
                 android:inputType="textPassword"
                 android:padding="10dp"
@@ -122,7 +123,7 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="3dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/input_register_bg"
+                android:backgroundTint="@color/black"
                 android:hint="@string/hint_email"
                 android:inputType="textEmailAddress"
                 android:padding="10dp"
@@ -138,7 +139,7 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="3dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/input_register_bg"
+                android:backgroundTint="@color/black"
                 android:hint="@string/hint_mobileNO"
                 android:inputType="phone"
                 android:padding="10dp"

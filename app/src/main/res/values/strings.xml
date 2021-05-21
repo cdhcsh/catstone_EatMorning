@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">catstone_EatMorning</string>
+    <string name="app_name">잇모닝</string>
     <string name="hint_id">사용자 ID를 입력하세요 *</string>
     <string name="hint_password">패스워드를 입력하세요 *</string>
     <string name="hint_passwordcheck">패스워드를 한번 더 입력하세요 *</string>
