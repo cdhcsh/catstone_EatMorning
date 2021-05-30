@@ -1,62 +1,69 @@
 package com.capstone.catstone_eatmorning;
 
+import android.location.Address;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Vector;
+
 public class Member {
+    public static final String ID_CHECK_REG_EXP = "^[a-zA-Z]{1}[a-zA-Z0-9_]{4,11}$"; //아이디 형식 정규식
+    public static final String PASSWORD_CHECK_REG_EXP = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,19}$";
+    public static final String NAME_CHECK_REG_EXP = "^[가-힣]{2,11}$";
+
+    public static final String USERS = "users";
+    public static final String DESTINATIONS = "user_destinations";
+
     public static final String NAVER = new String("naver");
     public static final String KAKAO = new String("kakao");
     public static final String FACEBOOK = new String("facebook");
     public static final String GOOGLE = new String("google");
     public static final String NONE = new String("none");
-    public static final String CONNECTED_SOCIAL_TYPE = "connected_social_type";
-    public static final String CONNECTED_SOCIAL_ID = "connected_social_ID";
-    public static final String USERID = "userID";
-    public static final String PASSWORD = "password";
-    public static final String SEX = "sex";
-    public static final String BIRTH = "birth";
-    public static final String POINT = "point";
-    public static final int SEX_MAN = 1;
-    public static final int SEX_WOMAN = 2;
 
-    public String userID;
-    public String username;
-    public String password;
-    public String connected_social_type = null;
-    public String connected_social_ID = null;
-    public int point = 0;
-    public String birth;
-    public int sex;
+    public static final String ID = "user_ID";
+    public static final String NAME = "user_name";
+    public static final String PASSWORD = "user_password";
+    public static final String POINT = "user_point";
+    public static final String PNUM = "user_pnum";
+    public static final String EMAIL = "user_email";
+    public static final String PAYMENT = "user_payment";
+    public static final String HEALTH = "user_health";
+    public static final String CONNECTED_SOCIAL_TYPE = "user_connected_social_type";
+    public static final String CONNECTED_SOCIAL_ID = "user_connected_social_ID";
 
-    public Member(String userID, String username, String password,String birth) {
-        this.userID = userID;
-        this.username = username;
-        this.password = password;
-        this.birth = birth;
+    public String user_ID;
+    public String user_name;
+    public String user_password;
+    public String user_email = "";
+    public int user_point = 0;
+    public String user_pnum = "";
+    public String user_payment = "";
+    public String user_health = "";
+    public String user_connected_social_type = "";
+    public String user_connected_social_ID = "";
+    public HashMap<String,Destination> user_destinations = new HashMap<String,Destination>();
+    public Member(String user_ID, String user_name, String user_password, String user_email ,String user_pnum,int user_point, String user_payment, String user_health) {
+        this.user_ID = user_ID;
+        this.user_name = user_name;
+        this.user_password = user_password;
+        this.user_pnum = user_pnum;
+        this.user_email = user_email;
+        this.user_point = user_point;
+        this.user_payment = user_payment;
+        this.user_health = user_health;
     }
-
-    public Member(String userID, String username, String password,String birth, String connected_social_type, String connected_social_ID) {
-        this.userID = userID;
-        this.username = username;
-        this.password = password;
-        this.birth = birth;
-        this.connected_social_type = connected_social_type;
-        this.connected_social_ID = connected_social_ID;
+    public void addDestination(String destination_name,String destination_address,String destination_detail_address){
+        Destination destination = new Destination(destination_name,destination_address,destination_detail_address);
+        user_destinations.put(destination_name,destination);
     }
 
     public Member(){
 
     }
-    public static void writeNewUser(String userID, String username,String password,String birth){
-        DatabaseReference mDatabase;
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        Member user = new Member(userID,username,password,birth,"","");
-        mDatabase.child("members").child(userID).setValue(user);
-    }
-    public static void writeNewUser(String userID, String username,String password,String birth,String connected_social_type,String connected_social_ID){
-        DatabaseReference mDatabase;
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        Member user = new Member(userID,username,password,birth,connected_social_type,connected_social_ID);
-        mDatabase.child("members").child(userID).setValue(user);
+    public void WriteUser(){
+        String[] childs = {USERS,user_ID};
+        DataManager.insertData(childs,Member.this);
     }
 }

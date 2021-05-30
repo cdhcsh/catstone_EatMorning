@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:background="@color/bg_main"
     android:theme="@style/Theme.Catstone_EatMorning"
-    android:padding="5dp"
+    android:padding="5sp"
     android:layout_row="2"
     android:layout_column="1">
     <LinearLayout
@@ -12,25 +12,25 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:layout_marginTop="100dp"
+        android:paddingLeft="10sp"
+        android:paddingRight="10sp"
+        android:layout_marginTop="100sp"
         android:layout_column="0"
         android:layout_row="0">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="50pt"
             android:src="@drawable/eatmorning_logo"
-            android:layout_margin="30dp"/>
+            android:layout_margin="30sp"/>
         <EditText
             android:id="@+id/input_userID"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="10sp"
             android:background="@color/input_register_bg"
             android:hint="@string/hint_id"
-            android:inputType="textCapWords"
-            android:padding="10dp"
+            android:inputType="text"
+            android:padding="10sp"
             android:textColor="@color/input_register"
             android:textColorHint="@color/input_register_hint" />
 
@@ -38,11 +38,11 @@
             android:id="@+id/input_password"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="10sp"
             android:background="@color/input_register_bg"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
-            android:padding="10dp"
+            android:padding="10sp"
             android:textColor="@color/input_register"
             android:textColorHint="@color/input_register_hint" />
         <GridLayout
@@ -53,7 +53,7 @@
             android:layout_gravity="center">
             <CheckBox
                 android:id="@+id/checkbox_saveID"
-                android:layout_width="0dp"
+                android:layout_width="0sp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_columnWeight="0.5"
@@ -61,12 +61,12 @@
                 android:layout_row="0"
                 android:layout_columnSpan="3"
                 android:text="아이디 저장"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:buttonTint="@color/input_login"
                 android:textColor="@color/input_login"/>
             <CheckBox
                 android:id="@+id/checkbox_autoLogin"
-                android:layout_width="0dp"
+                android:layout_width="0sp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_columnWeight="0.5"
@@ -75,12 +75,12 @@
                 android:layout_row="0"
                 android:textColor="@color/input_login"
                 android:text="자동 로그인"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:buttonTint="@color/input_login"/>
             <Button
                 android:id="@+id/btn_login"
-                android:layout_width="0dp"
-                android:layout_height="55dp"
+                android:layout_width="0sp"
+                android:layout_height="55sp"
                 android:layout_columnWeight="0.5"
                 android:layout_column="0"
                 android:layout_columnSpan="6"
@@ -88,12 +88,12 @@
                 android:backgroundTint="@color/btn_light"
                 android:text="@string/btn_login"
                 android:textColor="@color/white"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold"/>
 
             <Button
                 android:id="@+id/btn_register"
-                android:layout_width="0dp"
+                android:layout_width="0sp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="0.33"
                 android:layout_column="0"
@@ -102,12 +102,12 @@
                 android:backgroundTint="@color/white"
                 android:text="@string/btn_register"
                 android:textColor="@color/btn_light"
-                android:textSize="15dp"
-                android:layout_margin="5dp"
+                android:textSize="15sp"
+                android:layout_margin="5sp"
                 style="@style/Widget.AppCompat.Button.Borderless"/>
             <Button
                 android:id="@+id/btn_findID"
-                android:layout_width="0dp"
+                android:layout_width="0sp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="0.33"
                 android:layout_column="2"
@@ -116,12 +116,12 @@
                 android:backgroundTint="@color/white"
                 android:text="@string/btn_findID"
                 android:textColor="@color/btn_light"
-                android:textSize="15dp"
-                android:layout_margin="5dp"
+                android:textSize="15sp"
+                android:layout_margin="5sp"
                 style="@style/Widget.AppCompat.Button.Borderless"/>
             <Button
-                android:id="@+id/btn_findpw"
-                android:layout_width="0dp"
+                android:id="@+id/btn_finspw"
+                android:layout_width="0sp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="0.33"
                 android:layout_column="4"
@@ -130,8 +130,8 @@
                 android:backgroundTint="@color/white"
                 android:text="@string/btn_findPW"
                 android:textColor="@color/btn_light"
-                android:textSize="15dp"
-                android:layout_margin="5dp"
+                android:textSize="15sp"
+                android:layout_margin="5sp"
                 style="@style/Widget.AppCompat.Button.Borderless"/>
 
 
@@ -152,7 +152,7 @@
             android:layout_gravity="end"
             android:columnCount="4"
             android:padding="3pt"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="40sp"
             android:rowCount="2">
 
             <TextView
@@ -164,11 +164,11 @@
                 android:layout_gravity="center"
                 android:text="소셜 계정으로 로그인하기"
                 android:textAlignment="center"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <ImageButton
                 android:id="@+id/btn_naver_login"
-                android:layout_width="0dp"
+                android:layout_width="0sp"
                 android:layout_height="30pt"
                 android:layout_columnWeight="0.25"
                 android:layout_row="1"
@@ -180,7 +180,7 @@
 
             <ImageButton
                 android:id="@+id/btn_kakao_login"
-                android:layout_width="0dp"
+                android:layout_width="0sp"
                 android:layout_height="30pt"
                 android:layout_row="1"
                 android:layout_column="1"
@@ -193,7 +193,7 @@
 
             <ImageButton
                 android:id="@+id/btn_facebook_login"
-                android:layout_width="0dp"
+                android:layout_width="0sp"
                 android:layout_height="30pt"
                 android:layout_row="1"
                 android:layout_column="2"
@@ -206,7 +206,7 @@
 
             <ImageButton
                 android:id="@+id/btn_google_login"
-                android:layout_width="0dp"
+                android:layout_width="0sp"
                 android:layout_height="30pt"
                 android:layout_row="1"
                 android:layout_column="3"

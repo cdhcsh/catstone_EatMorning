@@ -16,9 +16,9 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
-public class activity_address extends AppCompatActivity {
+public class Activity_address extends AppCompatActivity {
     private WebView browser;
-
+    public static final int SEARCH_ADDRESS_ACRIVITY = 10000;
     class MyJavaScriptInterface
     {
         @JavascriptInterface

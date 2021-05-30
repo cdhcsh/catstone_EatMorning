@@ -1,34 +1,13 @@
 package com.capstone.catstone_eatmorning;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.nhn.android.naverlogin.OAuthLogin;
-import com.capstone.catstone_eatmorning.Member;
+public class Activity_Main extends AppCompatActivity {
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-public class MainActivity extends AppCompatActivity {
     private EditText input_ID;
     private EditText input_password;
     private EditText input_name;
@@ -57,9 +36,5 @@ public class MainActivity extends AppCompatActivity {
         input_ID.setText(connected_social_type);
         input_password.setText(connected_social_ID);
 
-    }
-    protected  void onStart(){
-        super.onStart();
-//
     }
 }

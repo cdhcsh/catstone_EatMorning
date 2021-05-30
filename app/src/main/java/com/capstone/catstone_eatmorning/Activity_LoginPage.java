@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +13,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.AccessToken;
@@ -23,14 +21,12 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.LoginStatusCallback;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -47,9 +43,6 @@ import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
-import com.kakao.usermgmt.response.model.Profile;
-import com.kakao.usermgmt.response.model.UserAccount;
-import com.kakao.util.OptionalBoolean;
 import com.kakao.util.exception.KakaoException;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
@@ -128,33 +121,33 @@ public class Activity_LoginPage extends AppCompatActivity {
             startActivity(intent);
         });
     }
-    private void initBtn_Logout(){
-        btn_register.setOnClickListener(v -> {
-            //페이스북 로그아웃
-            LoginManager.getInstance().logOut();
-            //구글 로그아웃
-            signOut();
-            //네이버 로그아웃
-            naver_M0AuthLoginModule = OAuthLogin.getInstance();
-            naver_M0AuthLoginModule.logout(context);
-            //카카오 로그아웃
-            UserManagement.getInstance()
-                    .requestLogout(new LogoutResponseCallback() {
-                        @Override
-                        public void onSessionClosed(ErrorResult errorResult) {
-                            super.onSessionClosed(errorResult);
-                            Log.d(TAG, "onSessionClosed: "+errorResult.getErrorMessage());
+    private void socialSignIn(String connected_social_type,String connected_social_ID){
+        startActivity_Login_social(connected_social_type,connected_social_ID);
+    }
+    private void socialLogout(){
+        //페이스북 로그아웃
+        LoginManager.getInstance().logOut();
+        //구글 로그아웃
+        signOut();
+        //네이버 로그아웃
+        naver_M0AuthLoginModule = OAuthLogin.getInstance();
+        naver_M0AuthLoginModule.logout(context);
+        //카카오 로그아웃
+        UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
+                    @Override
+                    public void onSessionClosed(ErrorResult errorResult) {
+                        super.onSessionClosed(errorResult);
+                        Log.d(TAG, "onSessionClosed: "+errorResult.getErrorMessage());
 
+                    }
+                    @Override
+                    public void onCompleteLogout() {
+                        if (sessionCallback != null) {
+                            Session.getCurrentSession().removeCallback(sessionCallback);
                         }
-                        @Override
-                        public void onCompleteLogout() {
-                            if (sessionCallback != null) {
-                                Session.getCurrentSession().removeCallback(sessionCallback);
-                            }
-                            Log.d(TAG, "onCompleteLogout:logout ");
-                        }
-                    });
-        });
+                        Log.d(TAG, "onCompleteLogout:logout ");
+                    }
+                });
     }
     private void initBtn_Google_Login(){
         //구글 로그인
@@ -213,7 +206,7 @@ public class Activity_LoginPage extends AppCompatActivity {
                             Log.i("LoginData","refreshToken : "+ refreshToken);
                             Log.i("LoginData","expiresAt : "+ expiresAt);
                             Log.i("LoginData","tokenType : "+ tokenType);
-                            startActivity_Login_social(Member.NAVER,String.valueOf(expiresAt));
+                            socialSignIn(Member.NAVER,String.valueOf(expiresAt));
 
                         } else {
                             String errorCode = naver_M0AuthLoginModule
@@ -245,16 +238,20 @@ public class Activity_LoginPage extends AppCompatActivity {
     private void startActivity_Login_normal(String userID,String password){
         Intent intent = new Intent(getApplicationContext(),Activity_Login.class);
         intent.putExtra(Member.CONNECTED_SOCIAL_TYPE,Member.NONE);
-        intent.putExtra(Member.USERID,userID);
+        intent.putExtra(Member.ID,userID);
         intent.putExtra(Member.PASSWORD,SHA256.encode(password));
         startActivity(intent);
+        finish();
     }
     private void startActivity_Login_social(String connected_social_type,String connected_social_ID){
-        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(),Activity_Main.class);
         intent.putExtra(Member.CONNECTED_SOCIAL_TYPE,connected_social_type);
         intent.putExtra(Member.CONNECTED_SOCIAL_ID,SHA256.encode(connected_social_ID));
         startActivity(intent);
+        finish();
     }
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -305,7 +302,7 @@ public class Activity_LoginPage extends AppCompatActivity {
                             FirebaseUser user = google_mAuth.getCurrentUser();
                             //updateUI(user);
                             //성공시 실행
-                            startActivity_Login_social(Member.GOOGLE,user.getUid());
+                            socialSignIn(Member.GOOGLE,user.getUid());
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -380,7 +377,7 @@ public class Activity_LoginPage extends AppCompatActivity {
                         public void onSuccess(MeV2Response result) {
                             String id = String.valueOf(result.getId());
                             Log.i("KAKAO_API", "사용자 아이디는 : " + result.getId());
-                            startActivity_Login_social(Member.KAKAO,id);
+                            socialSignIn(Member.KAKAO,id);
                         }
                     });
 
@@ -393,7 +390,7 @@ public class Activity_LoginPage extends AppCompatActivity {
         @Override
         public void onSuccess(LoginResult loginResult) {
             String id = loginResult.getAccessToken().getUserId();
-            startActivity_Login_social(Member.FACEBOOK,id);
+            socialSignIn(Member.FACEBOOK,id);
         }
 
         // 로그인 창을 닫을 경우, 호출됩니다.
