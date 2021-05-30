@@ -73,7 +73,5 @@
 <!--            android:background="#ea4c88"-->
 <!--            android:text="REGISTER"-->
 <!--            android:textColor="@color/white" />-->
-
-
     </LinearLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

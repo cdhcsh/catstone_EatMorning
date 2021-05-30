@@ -1,8 +1,10 @@
 package  com.capstone.catstone_eatmorning;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.Nullable;
+import androidx.multidex.MultiDex;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -15,6 +17,12 @@ import com.kakao.auth.KakaoSDK;
 
 public class GlobalApplication extends Application {
     private static GlobalApplication instance;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
     @Override
     public void onCreate() {

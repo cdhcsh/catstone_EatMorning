@@ -13,17 +13,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Catstone_EatMorning"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity_Main"></activity>
-        <activity android:name=".Activity_address" />
-        <activity android:name=".Activity_register" />
-        <activity android:name=".Activity_Login" />
-        <activity android:name=".Activity_LoginPage">
+        <activity
+            android:name=".Activity_Menu"
+            android:label="@string/title_activity__menu"
+            android:theme="@style/Theme.Catstone_EatMorning.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activity_Main" />
+        <activity android:name=".Activity_address" />
+        <activity android:name=".Activity_register" />
+        <activity android:name=".Activity_Login" />
+        <activity android:name=".Activity_LoginPage">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />

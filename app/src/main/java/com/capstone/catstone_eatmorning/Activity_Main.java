@@ -22,19 +22,5 @@ public class Activity_Main extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        input_ID = (EditText)findViewById(R.id.input_ID);
-        input_name = (EditText)findViewById(R.id.input_name);
-        input_password = (EditText)findViewById(R.id.input_password);
-
-
-        button = (Button) findViewById(R.id.btn_commit);
-
-        connected_social_type = getIntent().getStringExtra(Member.CONNECTED_SOCIAL_TYPE);
-        connected_social_ID = getIntent().getStringExtra(Member.CONNECTED_SOCIAL_ID);
-        if(connected_social_type == null) connected_social_type = "none";
-        if(connected_social_ID == null) connected_social_ID = "none";
-        input_ID.setText(connected_social_type);
-        input_password.setText(connected_social_ID);
-
     }
 }
