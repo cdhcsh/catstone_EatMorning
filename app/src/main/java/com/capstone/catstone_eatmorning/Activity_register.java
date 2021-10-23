@@ -6,7 +6,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
@@ -42,7 +41,6 @@ public class Activity_register extends AppCompatActivity {
     private EditText input_user_detail_address;
     private CheckBox checkbox_agree;
     Button btn_user_IDcheck;
-    Button btn_user_address;
     Button btn_resister_confirm;
 
     boolean bool_password_reg = false;
@@ -82,7 +80,6 @@ public class Activity_register extends AppCompatActivity {
             }
         });
         btn_user_IDcheck = (Button)findViewById(R.id.btn_user_IDcheck);
-        btn_user_address = (Button)findViewById(R.id.btn_user_address);
         btn_resister_confirm = (Button)findViewById(R.id.btn_register_confirm);
 
         initInput_user_name_reg();
@@ -91,7 +88,6 @@ public class Activity_register extends AppCompatActivity {
         initInput_user_email_reg();
         initInput_user_pnum_reg();
         initBtn_user_IDcheck();
-        initBtn_user_address();
         initBtn_Register_confirm();
         check_Register_require();
     }
@@ -268,7 +264,7 @@ public class Activity_register extends AppCompatActivity {
                 Member member = new Member(ID,name,SHA256.encode(password),email,pnum,0,"","");
                 member.addDestination("기본 배송지",address,detail_address);
 
-                member.WriteUser();
+                member.insert();
                 AlertDialog.Builder builder = new AlertDialog.Builder(Activity_register.this);
                 builder.setTitle("회원가입 완료");
                 builder.setMessage("회원가입에 성공했습니다.\n로그인 화면으로 이동합니다.");
@@ -339,23 +335,5 @@ public class Activity_register extends AppCompatActivity {
     }
     private boolean passwordRegCheck(String password){//비밀번호 정규식 검사
         return password.matches(Member.PASSWORD_CHECK_REG_EXP);
-    }
-    private void initBtn_user_address(){
-        btn_user_address.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Activity_register.this, Activity_address.class);
-                startActivityForResult(i, Activity_address.SEARCH_ADDRESS_ACRIVITY);
-            }
-        });
-    }
-    @Override
-    public void onActivityResult(int requestCode,int resultCode,Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-                if(resultCode == RESULT_OK){
-                    String data = intent.getExtras().getString("data");
-                    input_user_address.setText(data);
-                    check_Register_require();
-                }
     }
 }

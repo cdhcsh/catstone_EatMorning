@@ -110,6 +110,7 @@ public class Activity_LoginPage extends AppCompatActivity {
                     toast.show();
                 }
                 else {
+                    Log.d("TEST","=====================================================" + password);
                     startActivity_Login_normal(userID, SHA256.encode(password));
                 }
             }
@@ -239,7 +240,7 @@ public class Activity_LoginPage extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(),Activity_Login.class);
         intent.putExtra(Member.CONNECTED_SOCIAL_TYPE,Member.NONE);
         intent.putExtra(Member.ID,userID);
-        intent.putExtra(Member.PASSWORD,SHA256.encode(password));
+        intent.putExtra(Member.PASSWORD,password);
         startActivity(intent);
         finish();
     }

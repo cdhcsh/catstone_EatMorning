@@ -49,15 +49,17 @@ public class Activity_Login extends AppCompatActivity {
                         Log.d(task.getResult().getKey(),String.valueOf(task.getResult().getValue()));
                         if(task.getResult().exists()){
                             //아이디 존재할 시
-                            Log.d("로그인 ","아이디 있십니더!");
+                            Log.d("로그인 ","아이디 존재");
                             for(DataSnapshot d : task.getResult().getChildren()){
                                 if(d.getKey().equals(Member.PASSWORD)){
                                     String mpassword = String.valueOf(d.getValue());
                                     Log.d("비밀번호 확인 :" , password + " : " + mpassword);
                                     if(password.equals(mpassword)){
                                         //비밀번호 일치할시
-                                        Log.d("로그인 성공","로그인 성공!");
+                                        Log.d("로그인 성공","로그인 성공");
                                         DataManager.Logined_ID = userID;
+                                        Intent intent = new Intent(getApplicationContext(),Activity_Menu.class);
+                                        startActivity(intent);
                                     }
                                     else{
                                         //비밀번호 불일치할 시

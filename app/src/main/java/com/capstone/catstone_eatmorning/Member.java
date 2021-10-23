@@ -15,6 +15,7 @@ public class Member {
 
     public static final String USERS = "users";
     public static final String DESTINATIONS = "user_destinations";
+    public static final String SUBSCRIBES = "user_subscribes";
 
     public static final String NAVER = new String("naver");
     public static final String KAKAO = new String("kakao");
@@ -44,6 +45,7 @@ public class Member {
     public String user_connected_social_type = "";
     public String user_connected_social_ID = "";
     public HashMap<String,Destination> user_destinations = new HashMap<String,Destination>();
+    public HashMap<String,Subscribe> user_subscribes = new HashMap<String,Subscribe>();
     public Member(String user_ID, String user_name, String user_password, String user_email ,String user_pnum,int user_point, String user_payment, String user_health) {
         this.user_ID = user_ID;
         this.user_name = user_name;
@@ -58,12 +60,15 @@ public class Member {
         Destination destination = new Destination(destination_name,destination_address,destination_detail_address);
         user_destinations.put(destination_name,destination);
     }
+    public void addSubscribe(Subscribe subscribe){
+        user_subscribes.put(subscribe.subscribe_date.toString(),subscribe);
+    }
 
     public Member(){
 
     }
-    public void WriteUser(){
-        String[] childs = {USERS,user_ID};
-        DataManager.insertData(childs,Member.this);
+    public void insert(){
+        String[] childs = {USERS,user_ID}; // (위치,키이름)
+        DataManager.insertData(childs,Member.this); //데이터 입력
     }
 }

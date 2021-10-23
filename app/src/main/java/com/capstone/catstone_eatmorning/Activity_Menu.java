@@ -1,13 +1,22 @@
 package com.capstone.catstone_eatmorning;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -45,6 +54,33 @@ public class Activity_Menu extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        View header = navigationView.getHeaderView(0);
+
+        // header에 있는 리소스 가져오기
+        TextView text = (TextView) header.findViewById(R.id.ID);
+
+        DatabaseReference rootReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference UserReference;
+
+        UserReference = rootReference.child("users").child(DataManager.Logined_ID);
+        UserReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if(!task.isSuccessful()){
+                    Log.d("Firebase",String.valueOf(task.getResult().getValue()));
+                }
+                else{
+                    for(DataSnapshot d : task.getResult().getChildren()) {
+                        if (d.getKey().equals(Member.NAME)) {
+                            String name = String.valueOf(d.getValue());
+                            text.setText(name);
+                        }
+                    }
+                }
+            }
+        });
+
     }
 
     @Override
