@@ -17,6 +17,7 @@ public class Member {
     public static final String DESTINATIONS = "user_destinations";
     public static final String SUBSCRIBES = "user_subscribes";
 
+
     public static final String NAVER = new String("naver");
     public static final String KAKAO = new String("kakao");
     public static final String FACEBOOK = new String("facebook");
