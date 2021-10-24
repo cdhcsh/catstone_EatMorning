@@ -17,11 +17,6 @@
             android:name=".Activity_Menu"
             android:label="@string/title_activity__menu"
             android:theme="@style/Theme.Catstone_EatMorning.NoActionBar">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name"android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->=
         </activity>
         <activity android:name=".Activity_Main" />
         <activity android:name=".Activity_address" />
