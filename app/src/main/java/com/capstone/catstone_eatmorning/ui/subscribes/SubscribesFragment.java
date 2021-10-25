@@ -1,4 +1,4 @@
-package com.capstone.catstone_eatmorning.ui.gallery;
+package com.capstone.catstone_eatmorning.ui.subscribes;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.capstone.catstone_eatmorning.R;
 
-public class GalleryFragment extends Fragment {
+public class SubscribesFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private SubscribesViewModel slideshowViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                new ViewModelProvider(this).get(GalleryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        slideshowViewModel =
+                new ViewModelProvider(this).get(SubscribesViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_subscribes, container, false);
+        final TextView textView = root.findViewById(R.id.text_slideshow);
+        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

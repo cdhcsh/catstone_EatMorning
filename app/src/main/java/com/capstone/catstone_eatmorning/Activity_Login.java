@@ -79,7 +79,8 @@ public class Activity_Login extends AppCompatActivity {
             });
         }
         else{
-            Log.d("?","?");
+            Intent intent = new Intent(getApplicationContext(),Activity_Menu.class);
+            startActivity(intent);
         }
     }
 

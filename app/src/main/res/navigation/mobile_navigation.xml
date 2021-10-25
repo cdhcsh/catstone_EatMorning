@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_catagories">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.capstone.catstone_eatmorning.ui.home.HomeFragment"
+        android:id="@+id/nav_catagories"
+        android:name="com.capstone.catstone_eatmorning.ui.categories.CategoriesFragment"
         android:label="카테고리"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_categories" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.capstone.catstone_eatmorning.ui.gallery.GalleryFragment"
+        android:id="@+id/nav_myInfo"
+        android:name="com.capstone.catstone_eatmorning.ui.myinfo.MyInfoFragment"
         android:label="내 정보"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_myInfo" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.capstone.catstone_eatmorning.ui.slideshow.SlideshowFragment"
+        android:id="@+id/nav_subscribes"
+        android:name="com.capstone.catstone_eatmorning.ui.subscribes.SubscribesFragment"
         android:label="구독내역"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_subscribes" />
 </navigation>
