@@ -66,6 +66,7 @@ public class Activity_Menu extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(),Activity_LoginPage.class));
                     finish();
                 }
+
                 else if(item.getItemId() == R.id.nav_catagories){
                     fragment = new CategoriesFragment();
                     title = item.getTitle().toString();
