@@ -26,6 +26,8 @@ public class MyInfoFragment extends Fragment {
     private TextView txt_myinfo_id;
     private TextView txt_myinfo_name;
     private TextView txt_myinfo_point;
+    private TextView txt_myinfo_pnum;
+    private TextView txt_myinfo_email;
     private MyInfoViewModel galleryViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -36,6 +38,8 @@ public class MyInfoFragment extends Fragment {
         txt_myinfo_id = (TextView)root.findViewById(R.id.txt_myinfo_ID);
         txt_myinfo_name = (TextView)root.findViewById(R.id.txt_myinfo_name);
         txt_myinfo_point = (TextView)root.findViewById(R.id.txt_myinfo_point);
+        txt_myinfo_pnum = (TextView)root.findViewById(R.id.txt_myinfo_pnum);
+        txt_myinfo_email = (TextView)root.findViewById(R.id.txt_myinfo_email);
 
         DatabaseReference rootReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference UserReference;
@@ -44,20 +48,22 @@ public class MyInfoFragment extends Fragment {
         UserReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if(!task.isSuccessful()){
-                    Log.d("Firebase",String.valueOf(task.getResult().getValue()));
-                }
-                else{
-                    for(DataSnapshot d : task.getResult().getChildren()) {
+                if (!task.isSuccessful()) {
+                    Log.d("Firebase", String.valueOf(task.getResult().getValue()));
+                } else {
+                    for (DataSnapshot d : task.getResult().getChildren()) {
                         if (d.getKey().equals(Member.ID)) {
                             String string = String.valueOf(d.getValue());
                             txt_myinfo_id.setText(string);
-                        }
-                        else if(d.getKey().equals(Member.NAME)){
+                        } else if (d.getKey().equals(Member.NAME)) {
                             txt_myinfo_name.setText(String.valueOf(d.getValue()));
-                        }
-                        else if(d.getKey().equals(Member.POINT)) {
+                        } else if (d.getKey().equals(Member.POINT)) {
                             txt_myinfo_point.setText(String.valueOf(d.getValue()));
+                        } else if (d.getKey().equals(Member.PNUM)) {
+                            txt_myinfo_pnum.setText(String.valueOf(d.getValue()));
+                        }
+                        else if (d.getKey().equals(Member.EMAIL)) {
+                            txt_myinfo_email.setText(String.valueOf(d.getValue()));
                         }
                     }
                 }
