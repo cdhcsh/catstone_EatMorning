@@ -44,9 +44,9 @@ public class CategoriesFragment extends Fragment {
                 new ViewModelProvider(this).get(CategoriesViewModel.class);
         View root = inflater.inflate(R.layout.fragment_categories, container, false);
         listView = (ListView)root.findViewById(R.id.listview_menus);
+        adapter = new ListViewAdapter(getActivity());
         listView.setAdapter(adapter);
 
-        adapter.addItem("SEX","좋아");
         DatabaseReference rootReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference UserReference;
 
@@ -58,12 +58,19 @@ public class CategoriesFragment extends Fragment {
                     Log.d("Firebase", String.valueOf(task.getResult().getValue()));
                 } else {
                     for(DataSnapshot d : task.getResult().getChildren()){
+                        String name =null ;
+                        String description = null;
                         for(DataSnapshot c : d.getChildren()){
-
                             if(c.getKey().equals(Menu.NAME)){
-
+                                name = String.valueOf(c.getValue());
+                            }
+                            else if(c.getKey().equals(Menu.DESCRIPTION)){
+                                description = String.valueOf(c.getValue());
                             }
                         }
+                        adapter.addItem(name,description);
+                        adapter.notifyDataSetChanged();
+
                     }
                 }
             }
@@ -99,7 +106,7 @@ public class CategoriesFragment extends Fragment {
                 holder = new ViewHolder();
 
                 LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(R.layout.custom_listview_item,null);
+                convertView = inflater.inflate(R.layout.custom_listview_item,null);//레이아웃가져온다
 
                 holder.name = (TextView)convertView.findViewById(R.id.txt_listview_menu_name);
                 holder.description = (TextView)convertView.findViewById(R.id.txt_listview_menu_description);
@@ -112,7 +119,7 @@ public class CategoriesFragment extends Fragment {
             ListData data = listData.get(posion);
 
             holder.name.setText(data.name);
-            holder.name.setText(data.description);
+            holder.description.setText(data.description);
 
             return convertView;
         }
@@ -121,7 +128,6 @@ public class CategoriesFragment extends Fragment {
             data = new ListData();
             data.name = name;
             data.description = description;
-
             listData.add(data);
         }
         public void dataChange(){
