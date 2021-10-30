@@ -56,12 +56,13 @@ public class MyInfoFragment extends Fragment {
                         else if(d.getKey().equals(Member.NAME)){
                             txt_myinfo_name.setText(String.valueOf(d.getValue()));
                         }
-                        else if(d.getKey().equals(Member.POINT)){
-                            txt_myinfo_point.setText(Int.valueOf(d.getValue()));
+                        else if(d.getKey().equals(Member.POINT)) {
+                            txt_myinfo_point.setText(String.valueOf(d.getValue()));
+                        }
                     }
                 }
             }
-        };
+        });
 
             return root;
     }
