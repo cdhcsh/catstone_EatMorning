@@ -12,146 +12,180 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:columnCount="3"
-        android:rowCount="7">
+        android:rowCount="8">
 
         <TextView
             android:layout_row="0"
-            android:layout_rowWeight="1"
+            android:layout_rowWeight="2"
             android:layout_column="0"
             android:layout_columnWeight="1"
-            android:layout_gravity="end|center"
+            android:layout_gravity="start|center"
             android:text="이름"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:layout_margin="10dp"/>
+        
 
         <TextView
             android:id="@+id/txt_myinfo_name"
             android:layout_row="0"
-            android:layout_rowWeight="1"
+            android:layout_rowWeight="2"
             android:layout_column="1"
             android:layout_columnSpan="2"
             android:layout_columnWeight="3"
             android:layout_gravity="start|center"
-            android:text="이재윤"
-            android:textSize="15dp" />
+            android:text=""
+            android:textSize="15dp"
+            android:layout_margin="10dp"/>
 
         <TextView
             android:layout_row="1"
-            android:layout_rowWeight="1"
+            android:layout_rowWeight="2"
             android:layout_column="0"
             android:layout_columnWeight="1"
-            android:layout_gravity="end |center"
+            android:layout_gravity="center_vertical|start"
             android:text="아이디"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:layout_margin="10dp"/>
 
         <TextView
             android:id="@+id/txt_myinfo_ID"
             android:layout_row="1"
-            android:layout_rowWeight="1"
+            android:layout_rowWeight="2"
             android:layout_column="1"
             android:layout_columnSpan="2"
             android:layout_columnWeight="3"
-            android:layout_gravity="start |center"
-            android:text="wodbs"
-            android:textSize="15dp" />
+            android:layout_gravity="start|center"
+            android:text=""
+            android:textSize="15dp"
+            android:layout_margin="10dp"/>
 
         <TextView
             android:layout_row="2"
-            android:layout_rowWeight="1"
+            android:layout_rowWeight="2"
             android:layout_column="0"
             android:layout_columnWeight="2"
-            android:layout_gravity="end|center"
+            android:layout_gravity="start|center"
             android:text="비밀번호"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:layout_margin="10dp"/>
 
         <EditText
             android:id="@+id/edit_myinfo_passwd"
             android:layout_width="120dp"
             android:layout_row="2"
-            android:layout_rowWeight="1"
+            android:layout_rowWeight="2"
             android:layout_column="1"
             android:layout_columnSpan="1"
             android:layout_columnWeight="3"
-            android:layout_gravity="start |center"
+            android:layout_gravity="start|center"
             android:inputType="textPassword"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:layout_margin="10dp"/>
 
         <TextView
             android:layout_row="3"
-            android:layout_rowWeight="1"
-
+            android:layout_rowWeight="2"
             android:layout_column="0"
             android:layout_columnWeight="1"
-            android:layout_gravity="end|center"
+            android:layout_gravity="start|center"
             android:text="비밀번호 확인"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:layout_margin="10dp"/>
 
         <EditText
             android:id="@+id/edit_myinfo_passwdcheck"
             android:layout_width="120dp"
             android:layout_row="3"
-            android:layout_rowWeight="1"
+            android:layout_rowWeight="2"
             android:layout_column="1"
-            android:layout_columnSpan="1"
+            android:layout_columnSpan="2"
             android:layout_columnWeight="3"
             android:layout_gravity="start|center"
             android:inputType="textPassword"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:layout_margin="10dp"/>
 
         <TextView
+            android:id="@+id/txt_myinfo_point"
             android:layout_row="4"
-            android:layout_rowWeight="1"
+            android:layout_rowWeight="2"
             android:layout_column="0"
             android:layout_columnWeight="1"
-            android:layout_gravity="end|center"
+            android:layout_gravity="start|center"
             android:text="내 포인트"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:layout_margin="10dp"/>
 
         <TextView
+            android:layout_width="2dp"
+            android:layout_height="wrap_content"
             android:layout_row="4"
-            android:layout_rowWeight="1"
+            android:layout_rowWeight="2"
             android:layout_column="1"
+            android:layout_columnSpan="2"
             android:layout_columnWeight="1"
             android:layout_gravity="start|center"
+            android:layout_margin="10dp"
             android:text="0"
             android:textSize="15dp" />
 
         <TextView
             android:layout_row="5"
-            android:layout_rowWeight="1"
+            android:layout_rowWeight="2"
             android:layout_column="0"
             android:layout_columnWeight="1"
-            android:layout_gravity="end|center"
+            android:layout_gravity="start|center"
             android:text="전화번호"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:layout_margin="10dp"/>
 
         <TextView
             android:layout_row="5"
-            android:layout_rowWeight="1"
+            android:layout_rowWeight="2"
             android:layout_column="1"
-            android:layout_columnWeight="1"
+            android:layout_columnWeight="2"
+            android:layout_columnSpan="2"
             android:layout_gravity="start|center"
             android:text="010-XXXX-XXXX"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:layout_margin="10dp"/>
 
         <TextView
             android:layout_row="6"
-            android:layout_rowWeight="1"
+            android:layout_rowWeight="2"
             android:layout_column="0"
             android:layout_columnWeight="1"
-            android:layout_gravity="end|center"
+            android:layout_gravity="start|center"
             android:text="이메일"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:layout_margin="10dp"/>
 
         <TextView
             android:layout_row="6"
-            android:layout_rowWeight="1"
+            android:layout_rowWeight="2"
             android:layout_column="1"
             android:layout_columnWeight="1"
+            android:layout_columnSpan="2"
             android:layout_gravity="start|center"
             android:text="wodbs@naver.com"
-            android:textSize="15dp" />
-
-
+            android:textSize="15dp"
+            android:layout_margin="10dp"/>
+        <Button
+            android:id="@+id/btn_myinfo_insert"
+            android:layout_row="7"
+            android:layout_column="0"
+            android:layout_columnSpan="3"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="4"
+            android:background="@color/btn_light"
+            android:text="수정하기"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:layout_margin="20dp"
+            />
     </GridLayout>
 
 </LinearLayout>
+
+
