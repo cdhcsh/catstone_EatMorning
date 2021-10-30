@@ -1,15 +1,19 @@
 package com.capstone.catstone_eatmorning.ui.categories;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,6 +23,7 @@ import com.capstone.catstone_eatmorning.DataManager;
 import com.capstone.catstone_eatmorning.Member;
 import com.capstone.catstone_eatmorning.Menu;
 import com.capstone.catstone_eatmorning.R;
+import com.capstone.catstone_eatmorning.Subscribe;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -44,6 +49,26 @@ public class CategoriesFragment extends Fragment {
                 new ViewModelProvider(this).get(CategoriesViewModel.class);
         View root = inflater.inflate(R.layout.fragment_categories, container, false);
         listView = (ListView)root.findViewById(R.id.listview_menus);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("구독 하기").setMessage("구독 하시겠습니까?");
+                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        subscribe(position);
+                    }
+                });
+                builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getActivity().getApplicationContext(), "취소하셨습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.create().show();
+            }
+        });
         adapter = new ListViewAdapter(getActivity());
         listView.setAdapter(adapter);
 
@@ -78,6 +103,39 @@ public class CategoriesFragment extends Fragment {
 
         return root;
     }
+    public void subscribe(int pos){
+        ListData data = adapter.listData.get(pos);
+        String name = data.name;
+
+        //구독 확인
+        Toast.makeText(getActivity().getApplicationContext(),"기족 구독 내역을 확인중입니다.",Toast.LENGTH_SHORT).show();
+
+        DatabaseReference rootReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference UserReference;
+
+        UserReference = rootReference.child("users").child(DataManager.Logined_ID).child(Member.SUBSCRIBES);
+        UserReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.d("Firebase", String.valueOf(task.getResult().getValue()));
+                } else {
+                    for(DataSnapshot d : task.getResult().getChildren()){
+                        for(DataSnapshot s : d.getChildren()){
+                            if(s.getKey().equals(Subscribe.MENU_NAME)){
+                                if(s.getValue().equals(name)){
+                                    Toast.makeText(getActivity().getApplicationContext(),"이미 구독중인 식단입니다.",Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
     class ViewHolder{
         public TextView name;
         public TextView description;
