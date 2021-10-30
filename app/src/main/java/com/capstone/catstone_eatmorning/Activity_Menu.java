@@ -81,7 +81,7 @@ public class Activity_Menu extends AppCompatActivity {
                 }
                 if(fragment != null){
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.nav_host_fragment,fragment);
+                    ft.replace(R.id.nav_host_fragment_container,fragment);
                     ft.commit();
                     getSupportActionBar().setTitle(title);
                 }
