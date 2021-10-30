@@ -56,39 +56,48 @@ public class Activity_Menu extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         View header = navigationView.getHeaderView(0);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment = null;
-                String title = null;
-                if(item.getItemId() == R.id.nav_logout){
-                    DataManager.Logined_ID = null;
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                DataManager.Logined_ID = null;
                     startActivity(new Intent(getApplicationContext(),Activity_LoginPage.class));
                     finish();
-                }
-
-                else if(item.getItemId() == R.id.nav_catagories){
-                    fragment = new CategoriesFragment();
-                    title = item.getTitle().toString();
-                }
-                else if(item.getItemId() == R.id.nav_myInfo){
-                    fragment = new MyInfoFragment();
-                    title = item.getTitle().toString();
-                }
-                else if(item.getItemId() == R.id.nav_subscribes){
-                    fragment = new SubscribesFragment();
-                    title = item.getTitle().toString();
-                }
-                if(fragment != null){
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.nav_host_fragment_container,fragment);
-                    ft.commit();
-                    getSupportActionBar().setTitle(title);
-                }
-                drawer.closeDrawer(GravityCompat.START);
                 return false;
             }
         });
+//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                Fragment fragment = null;
+//                String title = null;
+//                if(item.getItemId() == R.id.nav_logout){
+//                    DataManager.Logined_ID = null;
+//                    startActivity(new Intent(getApplicationContext(),Activity_LoginPage.class));
+//                    finish();
+//                }
+//
+//                else if(item.getItemId() == R.id.nav_catagories){
+//                    fragment = new CategoriesFragment();
+//                    title = item.getTitle().toString();
+//                }
+//                else if(item.getItemId() == R.id.nav_myInfo){
+//                    fragment = new MyInfoFragment();
+//                    title = item.getTitle().toString();
+//                }
+//                else if(item.getItemId() == R.id.nav_subscribes){
+//                    fragment = new SubscribesFragment();
+//                    title = item.getTitle().toString();
+//                }
+//                if(fragment != null){
+//                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//                    ft.replace(R.id.nav_host_fragment_container,fragment);
+//                    ft.commit();
+//                    getSupportActionBar().setTitle(title);
+//                }
+//                drawer.closeDrawer(GravityCompat.START);
+//                return false;
+//            }
+//        });
 
         // header에 있는 리소스 가져오기
         TextView text = (TextView) header.findViewById(R.id.ID);
