@@ -1,7 +1,10 @@
 package com.capstone.catstone_eatmorning;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
@@ -34,14 +37,6 @@ public class Activity_Menu extends AppCompatActivity {
         setContentView(R.layout.activity__menu);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -53,8 +48,18 @@ public class Activity_Menu extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
         View header = navigationView.getHeaderView(0);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if(item.getItemId() == R.id.nav_logout){
+                    DataManager.Logined_ID = null;
+                    startActivity(new Intent(getApplicationContext(),Activity_LoginPage.class));
+                    finish();
+                }
+                return false;
+            }
+        });
 
         // header에 있는 리소스 가져오기
         TextView text = (TextView) header.findViewById(R.id.ID);
