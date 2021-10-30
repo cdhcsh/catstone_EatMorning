@@ -15,11 +15,17 @@
         android:id="@+id/nav_myInfo"
         android:name="com.capstone.catstone_eatmorning.ui.myinfo.MyInfoFragment"
         android:label="내 정보"
-        tools:layout="@layout/fragment_myInfo" />
+        tools:layout="@layout/fragment_myinfo" />
 
     <fragment
         android:id="@+id/nav_subscribes"
         android:name="com.capstone.catstone_eatmorning.ui.subscribes.SubscribesFragment"
         android:label="구독내역"
         tools:layout="@layout/fragment_subscribes" />
+    <fragment
+        android:id="@+id/nav_logout"
+        android:name="com.capstone.catstone_eatmorning.ui.subscribes.SubscribesFragment"
+        android:label="로그아웃"
+        tools:layout="@layout/fragment_logout" />
+
 </navigation>

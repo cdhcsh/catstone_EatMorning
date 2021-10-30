@@ -1,23 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.myinfo.MyInfoFragment">
+    tools:context=".ui.myinfo.MyInfoFragment"
+    android:orientation="vertical"
+    >
 
-    <TextView
-        android:id="@+id/text_gallery"
+    <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:text="fragment_gallery"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent"
+        android:columnCount="3"
+        android:rowCount="7">
+
+        <TextView
+            android:layout_row="0"
+            android:layout_rowWeight="1"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_gravity="end|center"
+            android:text="이름"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/txt_myinfo_name"
+            android:layout_row="0"
+            android:layout_rowWeight="1"
+            android:layout_column="1"
+            android:layout_columnSpan="2"
+            android:layout_columnWeight="3"
+            android:layout_gravity="start|center"
+            android:text="이재윤"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_row="1"
+            android:layout_rowWeight="1"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_gravity="end |center"
+            android:text="아이디"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/txt_myinfo_ID"
+            android:layout_row="1"
+            android:layout_rowWeight="1"
+            android:layout_column="1"
+            android:layout_columnSpan="2"
+            android:layout_columnWeight="3"
+            android:layout_gravity="start |center"
+            android:text="wodbs"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_row="2"
+            android:layout_rowWeight="1"
+            android:layout_column="0"
+            android:layout_columnWeight="2"
+            android:layout_gravity="end|center"
+            android:text="비밀번호"
+            android:textSize="15dp" />
+
+        <EditText
+            android:id="@+id/edit_myinfo_passwd"
+            android:layout_width="120dp"
+            android:layout_row="2"
+            android:layout_rowWeight="1"
+            android:layout_column="1"
+            android:layout_columnSpan="1"
+            android:layout_columnWeight="3"
+            android:layout_gravity="start |center"
+            android:inputType="textPassword"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_row="3"
+            android:layout_rowWeight="1"
+
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_gravity="end|center"
+            android:text="비밀번호 확인"
+            android:textSize="15dp" />
+
+        <EditText
+            android:id="@+id/edit_myinfo_passwdcheck"
+            android:layout_width="120dp"
+            android:layout_row="3"
+            android:layout_rowWeight="1"
+            android:layout_column="1"
+            android:layout_columnSpan="1"
+            android:layout_columnWeight="3"
+            android:layout_gravity="start|center"
+            android:inputType="textPassword"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_row="4"
+            android:layout_rowWeight="1"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_gravity="end|center"
+            android:text="내 포인트"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_row="4"
+            android:layout_rowWeight="1"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:layout_gravity="start|center"
+            android:text="0"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_row="5"
+            android:layout_rowWeight="1"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_gravity="end|center"
+            android:text="전화번호"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_row="5"
+            android:layout_rowWeight="1"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:layout_gravity="start|center"
+            android:text="010-XXXX-XXXX"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_row="6"
+            android:layout_rowWeight="1"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_gravity="end|center"
+            android:text="이메일"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_row="6"
+            android:layout_rowWeight="1"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:layout_gravity="start|center"
+            android:text="wodbs@naver.com"
+            android:textSize="15dp" />
+
+
+    </GridLayout>
+
+</LinearLayout>
