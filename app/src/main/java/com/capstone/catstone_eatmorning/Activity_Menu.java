@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
 
+import com.capstone.catstone_eatmorning.ui.categories.CategoriesFragment;
+import com.capstone.catstone_eatmorning.ui.myinfo.MyInfoFragment;
+import com.capstone.catstone_eatmorning.ui.subscribes.SubscribesFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -19,6 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -52,11 +59,32 @@ public class Activity_Menu extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment = null;
+                String title = null;
                 if(item.getItemId() == R.id.nav_logout){
                     DataManager.Logined_ID = null;
                     startActivity(new Intent(getApplicationContext(),Activity_LoginPage.class));
                     finish();
                 }
+                else if(item.getItemId() == R.id.nav_catagories){
+                    fragment = new CategoriesFragment();
+                    title = item.getTitle().toString();
+                }
+                else if(item.getItemId() == R.id.nav_myInfo){
+                    fragment = new MyInfoFragment();
+                    title = item.getTitle().toString();
+                }
+                else if(item.getItemId() == R.id.nav_subscribes){
+                    fragment = new SubscribesFragment();
+                    title = item.getTitle().toString();
+                }
+                if(fragment != null){
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.nav_host_fragment,fragment);
+                    ft.commit();
+                    getSupportActionBar().setTitle(title);
+                }
+                drawer.closeDrawer(GravityCompat.START);
                 return false;
             }
         });
