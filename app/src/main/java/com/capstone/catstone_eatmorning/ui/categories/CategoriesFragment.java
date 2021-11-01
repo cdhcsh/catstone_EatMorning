@@ -130,8 +130,10 @@ public class CategoriesFragment extends Fragment {
                             }
                         }
                     }
+
                 }
             }
+
         });
 
     }
@@ -196,6 +198,7 @@ public class CategoriesFragment extends Fragment {
 class ListData{
     public String name;
     public String description;
+    public String price;
     public static final Comparator<ListData> ALPHA_COMPARATOR = new Comparator<ListData>() {
         private final Collator sCollator = Collator.getInstance();
         public int compare(ListData o1,ListData o2) {

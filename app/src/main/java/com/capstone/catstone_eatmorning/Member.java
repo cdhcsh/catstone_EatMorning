@@ -72,4 +72,8 @@ public class Member {
         String[] childs = {USERS,user_ID}; // (위치,키이름)
         DataManager.insertData(childs,Member.this); //데이터 입력
     }
+    public static void update(String ID,String key,String value){
+        String[] childs = {USERS,ID,key}; // (위치,키이름)
+        DataManager.insertData(childs,value); //데이터 입력
+    }
 }
