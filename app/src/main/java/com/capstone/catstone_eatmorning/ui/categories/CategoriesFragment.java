@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,13 +29,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.text.Collator;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
+import java.util.Date;
 
 public class CategoriesFragment extends Fragment {
     private ListView listView;
@@ -85,6 +82,7 @@ public class CategoriesFragment extends Fragment {
                     for(DataSnapshot d : task.getResult().getChildren()){
                         String name =null ;
                         String description = null;
+                        String price = null ;
                         for(DataSnapshot c : d.getChildren()){
                             if(c.getKey().equals(Menu.NAME)){
                                 name = String.valueOf(c.getValue());
@@ -92,8 +90,11 @@ public class CategoriesFragment extends Fragment {
                             else if(c.getKey().equals(Menu.DESCRIPTION)){
                                 description = String.valueOf(c.getValue());
                             }
+                            else if(c.getKey().equals(Menu.PRICE)){
+                                price = String.valueOf(c.getValue()) + "원";
+                            }
                         }
-                        adapter.addItem(name,description);
+                        adapter.addItem(name,description,price);
                         adapter.notifyDataSetChanged();
 
                     }
@@ -104,7 +105,7 @@ public class CategoriesFragment extends Fragment {
         return root;
     }
     public void subscribe(int pos){
-        ListData data = adapter.listData.get(pos);
+        menu_data data = adapter.listData.get(pos);
         String name = data.name;
 
         //구독 확인
@@ -130,6 +131,14 @@ public class CategoriesFragment extends Fragment {
                             }
                         }
                     }
+                    String string = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis()));
+                    Integer date = Integer.parseInt(string);
+                    String menu_name = data.name;
+                    String price =data.price.replace("원","");
+                    Subscribe subscribe = new Subscribe(date,menu_name,price);
+                    subscribe.insert(DataManager.Logined_ID);
+                    Toast.makeText(getActivity().getApplicationContext(),"구독이 완료되었습니다.",Toast.LENGTH_SHORT).show();
+                    return;
 
                 }
             }
@@ -138,13 +147,14 @@ public class CategoriesFragment extends Fragment {
 
     }
 
-    class ViewHolder{
+    class menuHolder {
         public TextView name;
         public TextView description;
+        public TextView price;
     }
     class ListViewAdapter extends BaseAdapter{
         private Context mContext = null;
-        public ArrayList<ListData> listData = new ArrayList<ListData>();
+        public ArrayList<menu_data> listData = new ArrayList<menu_data>();
         public ListViewAdapter(Context context){
             super();
             this.mContext = context;
@@ -161,33 +171,36 @@ public class CategoriesFragment extends Fragment {
             return position;
         }
         public View getView(int posion,View convertView,ViewGroup parent){
-            ViewHolder holder;
+            menuHolder holder;
             if(convertView == null){
-                holder = new ViewHolder();
+                holder = new menuHolder();
 
                 LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.custom_listview_item,null);//레이아웃가져온다
 
                 holder.name = (TextView)convertView.findViewById(R.id.txt_listview_menu_name);
                 holder.description = (TextView)convertView.findViewById(R.id.txt_listview_menu_description);
+                holder.price = (TextView)convertView.findViewById(R.id.txt_listview_menu_price);
 
                 convertView.setTag(holder);
             }
             else{
-                holder = (ViewHolder)convertView.getTag();
+                holder = (menuHolder)convertView.getTag();
             }
-            ListData data = listData.get(posion);
+            menu_data data = listData.get(posion);
 
             holder.name.setText(data.name);
             holder.description.setText(data.description);
+            holder.price.setText(data.price);
 
             return convertView;
         }
-        public void addItem(String name,String description){
-            ListData data = null;
-            data = new ListData();
+        public void addItem(String name,String description,String price){
+            menu_data data = null;
+            data = new menu_data();
             data.name = name;
             data.description = description;
+            data.price = price;
             listData.add(data);
         }
         public void dataChange(){
@@ -195,13 +208,13 @@ public class CategoriesFragment extends Fragment {
         }
     }
 }
-class ListData{
+class menu_data {
     public String name;
     public String description;
     public String price;
-    public static final Comparator<ListData> ALPHA_COMPARATOR = new Comparator<ListData>() {
+    public static final Comparator<menu_data> ALPHA_COMPARATOR = new Comparator<menu_data>() {
         private final Collator sCollator = Collator.getInstance();
-        public int compare(ListData o1,ListData o2) {
+        public int compare(menu_data o1, menu_data o2) {
             return sCollator.compare(o1.name,o2.name);
         }
     };
