@@ -36,6 +36,7 @@
         android:layout_row="1"
         android:layout_columnSpan="3"
         android:layout_marginTop="10dp"
+        android:id="@+id/listview_subscribe"
         />
 </GridLayout>
 
